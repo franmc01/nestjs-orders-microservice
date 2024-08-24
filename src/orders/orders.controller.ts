@@ -3,6 +3,7 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderPaginationDto } from '../common/dtos/order-pagination.dto';
+import { ChangeOrderStatusDto } from './dto/change-order-status.dto';
 
 @Controller()
 export class OrdersController {
@@ -21,5 +22,10 @@ export class OrdersController {
   @MessagePattern('findOneOrder')
   findOne(@Payload('id', ParseUUIDPipe) id: string) {
     return this.ordersService.findOne(id);
+  }
+
+  @MessagePattern('changeOrderStatus')
+  changeOrderStatus(@Payload() changeOrderStatusDto: ChangeOrderStatusDto) {
+    return this.ordersService.changeStatus(changeOrderStatusDto);
   }
 }
